@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Employer Profile{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card">
+    <div class="profile-card">
+      <img class="profile-avatar" src="{{ url_for('static', filename='uploads/profiles/' ~ user[7]) }}" alt="Profile" onerror="this.src='https://ui-avatars.com/api/?name={{ user[1] }}&background=0f4c81&color=fff&size=110'">
+      <div class="profile-info">
+        <h2>{{ user[1] }}</h2>
+        <span class="role-tag">👔 Employer</span>
+        <div class="info-row"><strong>Gender:</strong> {{ user[2] }}</div>
+        <div class="info-row"><strong>Email:</strong> {{ user[3] }}</div>
+        <div class="info-row"><strong>Phone:</strong> {{ user[4] }}</div>
+        <div class="info-row"><strong>Member since:</strong> {{ user[8].strftime('%B %d, %Y') if user[8] else 'N/A' }}</div>
+        <br>
+        <a href="{{ url_for('employer.manage_profile') }}" class="btn btn-primary btn-sm">✏️ Manage Profile</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Bid Project{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header"><h2>🤝 Bid on Project</h2></div>
+  <a href="{{ url_for('employee.view_posts') }}" class="btn btn-outline btn-sm" style="margin-bottom:1.2rem;">← Back to Posts</a>
+  {% if project %}
+  <div class="grid-2">
+    <div class="card">
+      <h3 class="card-title">{{ project[2] }}</h3>
+      <p style="color:var(--muted);font-size:.93rem;margin-bottom:1rem;">{{ project[3] }}</p>
+      <div class="skills-wrap" style="margin-bottom:1rem;">
+        {% for s in project[4].split(',') %}<span class="skill-tag">{{ s.strip() }}</span>{% endfor %}
+      </div>
+      <div class="project-meta">
+        <span>💰 Budget: ₹{{ "%.0f"|format(project[5]) }}</span>
+        <span>📅 Deadline: {{ project[6] }}</span>
+      </div>
+      {% if project[7] %}
+      <div style="margin-top:.8rem;">
+        <a href="{{ url_for('shared.serve_attachment', filename=project[7]) }}" target="_blank" class="btn btn-outline btn-sm">📎 View PDF</a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="card">
+      <h3 class="card-title">Place Your Bid</h3>
+      <div style="background:var(--bg);border-radius:10px;padding:1rem;margin-bottom:1.2rem;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:.4rem;">
+          <span style="color:var(--muted);font-size:.88rem;">Current Lowest Bid</span>
+          <strong style="color:var(--success);">{% if lowest %}₹{{ "%.0f"|format(lowest) }}{% else %}No bids yet{% endif %}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;">
+          <span style="color:var(--muted);font-size:.88rem;">Project Budget</span>
+          <strong style="color:var(--primary);">₹{{ "%.0f"|format(project[5]) }}</strong>
+        </div>
+      </div>
+      <form method="POST">
+        <div class="form-group">
+          <label>Your Bid Amount (₹)</label>
+          <input type="number" name="amount" min="1" placeholder="Enter your bid" required>
+          <small style="color:var(--muted);font-size:.82rem;">Tip: Bid lower than the current lowest to be competitive</small>
+        </div>
+        <button type="submit" class="btn btn-accent btn-block">🚀 Submit Bid</button>
+      </form>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

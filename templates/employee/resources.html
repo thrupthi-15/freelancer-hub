@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Learning Resources{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header"><h2>🎬 Learning Resources</h2><p>Skill enhancement videos from admin</p></div>
+  <form class="search-bar" method="GET">
+    <input type="text" name="search" value="{{ search }}" placeholder="Search by title or skill...">
+    <button type="submit">🔍 Search</button>
+    {% if search %}<a href="{{ url_for('employee.resources') }}" class="btn btn-outline" style="white-space:nowrap;">✕ Clear</a>{% endif %}
+  </form>
+  {% if resources %}
+    {% for r in resources %}
+    <div class="video-card">
+      <video controls><source src="{{ url_for('static', filename='uploads/videos/' ~ r[3]) }}">Your browser does not support video.</video>
+      <div class="video-info">
+        <h3>{{ r[1] }}</h3>
+        <div class="skills-wrap">{% for s in r[2].split(',') %}<span class="skill-tag">{{ s.strip() }}</span>{% endfor %}</div>
+        <p style="font-size:.82rem;color:var(--muted);margin-top:.4rem;">Uploaded: {{ r[4].strftime('%d %b %Y') if r[4] else '' }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="card empty-state"><div class="icon">🎬</div><p>No resources available{% if search %} for "{{ search }}"{% endif %}.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

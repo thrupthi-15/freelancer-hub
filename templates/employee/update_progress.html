@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Update Progress{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header"><h2>📝 Update Task Progress</h2>{% if task %}<p>{{ task[2] }}</p>{% endif %}</div>
+  <a href="{{ url_for('employee.my_tasks') }}" class="btn btn-outline btn-sm" style="margin-bottom:1.2rem;">← Back</a>
+  {% if task %}
+  <div class="card" style="max-width:560px;">
+    <div style="margin-bottom:1.5rem;">
+      <p style="font-size:.88rem;color:var(--muted);margin-bottom:.4rem;">Current Progress</p>
+      <div style="font-size:2.5rem;font-weight:800;color:var(--primary);font-family:'Syne',sans-serif;">{{ task[0] }}%</div>
+      <div class="progress-wrap" style="margin-top:.5rem;"><div class="progress-fill" style="width:{{ task[0] }}%;"></div></div>
+    </div>
+    <form method="POST">
+      <div class="form-group">
+        <label>New Progress (%)</label>
+        <input type="number" name="progress" min="0" max="100" value="{{ task[0] }}" required>
+      </div>
+      <div class="form-group">
+        <label>Progress Note (Optional)</label>
+        <textarea name="note" placeholder="What have you completed?">{{ task[1] or '' }}</textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">✅ Update Progress</button>
+    </form>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

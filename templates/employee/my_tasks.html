@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}My Tasks{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header"><h2>📌 My Tasks</h2><p>Projects assigned to you</p></div>
+  {% if tasks %}
+    {% for t in tasks %}
+    <div class="card">
+      <div class="card-header">
+        <h3>{{ t[1] }}</h3>
+        <span style="font-size:.85rem;color:var(--muted);">Employer: {{ t[9] }}</span>
+      </div>
+      <div class="grid-2">
+        <div>
+          <p style="color:var(--muted);font-size:.9rem;margin-bottom:.8rem;">{{ t[2][:120] }}...</p>
+          <div class="skills-wrap">{% for s in t[3].split(',') %}<span class="skill-tag">{{ s.strip() }}</span>{% endfor %}</div>
+          <div class="project-meta" style="margin-top:.8rem;">
+            <span>📅 Deadline: {{ t[4] }}</span>
+            <span>💰 Bid: ₹{{ "%.0f"|format(t[6]) }}</span>
+          </div>
+          {% if t[5] %}
+          <div style="margin-top:.6rem;">
+            <a href="{{ url_for('shared.serve_attachment', filename=t[5]) }}" target="_blank" class="btn btn-outline btn-sm">📎 Attachment</a>
+          </div>
+          {% endif %}
+        </div>
+        <div>
+          <p style="font-size:.88rem;margin-bottom:.5rem;"><strong>Progress:</strong> {{ t[7] }}%</p>
+          <div class="progress-wrap" style="margin-bottom:1rem;"><div class="progress-fill" style="width:{{ t[7] }}%;"></div></div>
+          <div class="project-actions">
+            <a href="{{ url_for('employee.update_progress', task_id=t[0]) }}" class="btn btn-primary btn-sm">📝 Update Progress</a>
+            <a href="{{ url_for('employee.view_payment', task_id=t[0]) }}" class="btn btn-accent btn-sm">💰 View Payment</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="card empty-state"><div class="icon">📋</div><p>No tasks assigned yet. <a href="{{ url_for('employee.view_posts') }}">Browse projects</a></p></div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Payment{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header"><h2>💳 Payment</h2><p>Make payments to your assigned employee</p></div>
+  <a href="{{ url_for('employer.view_assigned') }}" class="btn btn-outline btn-sm" style="margin-bottom:1.2rem;">← Back</a>
+  {% if info %}
+  <div class="payment-summary">
+    <div class="pay-stat"><div class="amount">₹{{ "%.0f"|format(info[0]) }}</div><div class="label">Total Bid Amount</div></div>
+    <div class="pay-stat"><div class="amount" style="color:var(--success);">₹{{ "%.0f"|format(info[1]) }}</div><div class="label">Total Paid</div></div>
+    <div class="pay-stat"><div class="amount" style="color:var(--danger);">₹{{ "%.0f"|format(info[0] - info[1]) }}</div><div class="label">Remaining</div></div>
+  </div>
+  {% endif %}
+  <div class="grid-2">
+    <div class="card">
+      <h3 class="card-title">Make Payment</h3>
+      <form method="POST">
+        <div class="form-group"><label>From UPI ID</label><input type="text" name="from_upi" placeholder="yourname@upi" required></div>
+        <div class="form-group"><label>To UPI ID</label><input type="text" name="to_upi" placeholder="employee@upi" required></div>
+        <div class="form-group"><label>Amount (₹)</label><input type="number" name="amount" min="1" placeholder="500" required></div>
+        <button type="submit" class="btn btn-success" onclick="return confirm('Confirm payment?')">💸 Make Payment</button>
+      </form>
+    </div>
+    <div class="card">
+      <h3 class="card-title">Payment History</h3>
+      {% if history %}
+      <table>
+        <thead><tr><th>From</th><th>To</th><th>Amount</th><th>Date</th></tr></thead>
+        <tbody>
+          {% for h in history %}
+          <tr><td>{{ h[2] }}</td><td>{{ h[3] }}</td><td>₹{{ "%.0f"|format(h[4]) }}</td><td>{{ h[5].strftime('%d %b %Y') if h[5] else '' }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}<div class="empty-state"><div class="icon">💳</div><p>No payments made yet.</p></div>{% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

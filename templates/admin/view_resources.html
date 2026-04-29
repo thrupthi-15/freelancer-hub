@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}View Resources{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header"><h2>🎬 Manage Resources</h2><p>All uploaded learning videos</p></div>
+  <form class="search-bar" method="GET">
+    <input type="text" name="search" value="{{ search }}" placeholder="Search by title or skill...">
+    <button type="submit">🔍 Search</button>
+    {% if search %}<a href="{{ url_for('admin.view_resources') }}" class="btn btn-outline" style="white-space:nowrap;">✕ Clear</a>{% endif %}
+  </form>
+  {% if resources %}
+    {% for r in resources %}
+    <div class="video-card">
+      <video controls><source src="{{ url_for('static', filename='uploads/videos/' ~ r[3]) }}">Your browser does not support video.</video>
+      <div class="video-info" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <h3>{{ r[1] }}</h3>
+          <div class="skills-wrap" style="margin:.4rem 0;">{% for s in r[2].split(',') %}<span class="skill-tag">{{ s.strip() }}</span>{% endfor %}</div>
+          <p style="font-size:.82rem;color:var(--muted);">Uploaded: {{ r[4].strftime('%d %b %Y') if r[4] else '' }}</p>
+        </div>
+        <a href="{{ url_for('admin.delete_resource', rid=r[0]) }}" class="btn btn-danger btn-sm" onclick="return confirm('Delete this resource?')">🗑 Delete</a>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="card empty-state"><div class="icon">🎬</div><p>No resources found{% if search %} for "{{ search }}"{% endif %}.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

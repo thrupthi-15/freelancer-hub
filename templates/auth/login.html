@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Login — Freelancing Hub{% endblock %}
+{% block content %}
+<div class="auth-bg">
+<div class="auth-card">
+  <div class="auth-logo">
+    <h1>Freelancing<span>Hub</span></h1>
+    <p>Sign in to your account</p>
+  </div>
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for cat,msg in messages %}<div class="alert alert-{{ cat }}">{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}
+  <form method="POST">
+    <div class="role-tabs">
+      <div class="role-tab active" data-role="employer" onclick="setRole('employer')">👔 Employer</div>
+      <div class="role-tab" data-role="employee" onclick="setRole('employee')">💼 Employee</div>
+      <div class="role-tab" data-role="admin" onclick="setRole('admin')">🛡 Admin</div>
+    </div>
+    <input type="hidden" name="role" id="roleInput" value="employer">
+    <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="you@example.com" required></div>
+    <div class="form-group"><label>Password</label><input type="password" name="password" placeholder="••••••••" required></div>
+    <button type="submit" class="btn btn-primary btn-block" style="margin-top:.5rem;">Sign In →</button>
+  </form>
+  <div class="auth-footer">No account? <a href="{{ url_for('auth.register') }}">Register here</a></div>
+</div>
+</div>
+<script>
+function setRole(r){
+  document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('[data-role="'+r+'"]').classList.add('active');
+  document.getElementById('roleInput').value=r;
+}
+</script>
+{% endblock %}

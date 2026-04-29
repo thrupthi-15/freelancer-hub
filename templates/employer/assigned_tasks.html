@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Assigned Tasks{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header"><h2>📌 Assigned Tasks</h2><p>Track your ongoing projects</p></div>
+  {% if tasks %}
+    {% for t in tasks %}
+    <div class="card">
+      <div class="card-header">
+        <h3>{{ t[1] }}</h3>
+        <span style="color:var(--muted);font-size:.85rem;">Assigned: {{ t[13].strftime('%d %b %Y') if t[13] else '' }}</span>
+      </div>
+      <div class="grid-2">
+        <div>
+          <p style="color:var(--muted);font-size:.9rem;margin-bottom:.8rem;">{{ t[2][:120] }}...</p>
+          <div class="skills-wrap">{% for s in t[3].split(',') %}<span class="skill-tag">{{ s.strip() }}</span>{% endfor %}</div>
+          <div class="project-meta" style="margin-top:.8rem;">
+            <span>📅 Deadline: {{ t[5] }}</span>
+            <span>💰 Bid: ₹{{ "%.0f"|format(t[11]) }}</span>
+          </div>
+          {% if t[6] %}
+          <div style="margin-top:.5rem;">
+            <a href="{{ url_for('shared.serve_attachment', filename=t[6]) }}" target="_blank" class="btn btn-outline btn-sm">📎 Attachment</a>
+          </div>
+          {% endif %}
+        </div>
+        <div>
+          <p style="font-size:.88rem;color:var(--muted);margin-bottom:.4rem;"><strong>Assigned to:</strong> {{ t[8] }} | {{ t[9] }} | {{ t[10] }}</p>
+          <p style="font-size:.88rem;margin-bottom:.5rem;"><strong>Progress:</strong> {{ t[12] }}%</p>
+          <div class="progress-wrap" id="prog-{{ t[0] }}">
+            <div class="progress-fill" id="fill-{{ t[0] }}"></div>
+          </div>
+          <script>
+            document.getElementById('fill-{{ t[0] }}').style.width = '{{ t[12] }}%';
+          </script>
+          <div class="project-actions" style="margin-top:1rem;">
+            <a href="{{ url_for('employer.view_status', task_id=t[0]) }}" class="btn btn-primary btn-sm">📊 View Status</a>
+            <a href="{{ url_for('employer.payment', task_id=t[0]) }}" class="btn btn-accent btn-sm">💳 Payment</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="card empty-state"><div class="icon">📋</div><p>No tasks assigned yet.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

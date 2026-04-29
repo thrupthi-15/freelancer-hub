@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}View Payment{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header"><h2>💰 Payment Details</h2></div>
+  <a href="{{ url_for('employee.my_tasks') }}" class="btn btn-outline btn-sm" style="margin-bottom:1.2rem;">← Back</a>
+  {% if info %}
+  <div class="payment-summary">
+    <div class="pay-stat"><div class="amount">₹{{ "%.0f"|format(info[0]) }}</div><div class="label">Total Bid Amount</div></div>
+    <div class="pay-stat"><div class="amount" style="color:var(--success);">₹{{ "%.0f"|format(info[1]) }}</div><div class="label">Total Received</div></div>
+    <div class="pay-stat"><div class="amount" style="color:var(--danger);">₹{{ "%.0f"|format(info[0] - info[1]) }}</div><div class="label">Pending</div></div>
+  </div>
+  {% endif %}
+  <div class="card">
+    <h3 class="card-title">Payment History</h3>
+    {% if history %}
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>From</th><th>To</th><th>Amount</th><th>Date</th></tr></thead>
+        <tbody>
+          {% for h in history %}
+          <tr><td>{{ loop.index }}</td><td>{{ h[2] }}</td><td>{{ h[3] }}</td><td><strong style="color:var(--success);">₹{{ "%.0f"|format(h[4]) }}</strong></td><td>{{ h[5].strftime('%d %b %Y, %I:%M %p') if h[5] else '' }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}<div class="empty-state"><div class="icon">💳</div><p>No payments received yet.</p></div>{% endif %}
+  </div>
+</div>
+{% endblock %}

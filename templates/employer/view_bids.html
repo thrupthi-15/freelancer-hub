@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}View Bids{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h2>💼 Bids for: {{ project[2] }}</h2>
+    <p>Budget: ₹{{ "%.0f"|format(project[5]) }} | Deadline: {{ project[6] }}</p>
+  </div>
+  <a href="{{ url_for('employer.view_posts') }}" class="btn btn-outline btn-sm" style="margin-bottom:1.2rem;">← Back to Posts</a>
+  {% if bids %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Employee</th><th>Gender</th><th>Email</th><th>Phone</th><th>Bid Amount</th><th>Action</th></tr></thead>
+      <tbody>
+        {% for b in bids %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td><strong>{{ b[1] }}</strong>{% if loop.index == 1 %} <span class="badge badge-open">Lowest</span>{% endif %}</td>
+          <td>{{ b[2] }}</td>
+          <td>{{ b[3] }}</td>
+          <td>{{ b[4] }}</td>
+          <td><strong style="color:var(--success);">₹{{ "%.0f"|format(b[6]) }}</strong></td>
+          <td>
+            {% if project[8] == 'open' %}
+            <a href="{{ url_for('employer.assign_task', pid=project[0], emp_id=b[0]) }}" class="btn btn-success btn-sm" onclick="return confirm('Assign task to {{ b[1] }}?')">✅ Assign Task</a>
+            {% else %}
+            <span class="badge badge-assigned">Assigned</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <div class="card empty-state"><div class="icon">🕐</div><p>No bids received yet. Check back later.</p></div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Register — Freelancing Hub{% endblock %}
+{% block content %}
+<div class="auth-bg">
+<div class="auth-card" style="max-width:500px;">
+  <div class="auth-logo">
+    <h1>Freelancing<span>Hub</span></h1>
+    <p>Create your account</p>
+  </div>
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for cat,msg in messages %}<div class="alert alert-{{ cat }}">{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}
+  <form method="POST" enctype="multipart/form-data">
+    <div class="role-tabs">
+      <div class="role-tab active" data-role="employer" onclick="setRole('employer')">👔 Employer</div>
+      <div class="role-tab" data-role="employee" onclick="setRole('employee')">💼 Employee</div>
+    </div>
+    <input type="hidden" name="role" id="roleInput" value="employer">
+    <div class="img-preview-wrap">
+      <div class="img-placeholder" id="placeholder">👤</div>
+      <img id="preview" class="img-preview" src="" alt="">
+    </div>
+    <div class="grid-2">
+      <div class="form-group"><label>Full Name</label><input type="text" name="name" placeholder="John Doe" required></div>
+      <div class="form-group"><label>Gender</label>
+        <select name="gender" required><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="you@example.com" required></div>
+    <div class="grid-2">
+      <div class="form-group"><label>Phone</label><input type="tel" name="phone" placeholder="+91 9876543210" required></div>
+      <div class="form-group"><label>Password</label><input type="password" name="password" placeholder="••••••••" required></div>
+    </div>
+    <div class="form-group"><label>Profile Photo</label><input type="file" name="profile_image" accept="image/*" onchange="previewImg(event)" required></div>
+    <button type="submit" class="btn btn-primary btn-block" style="margin-top:.5rem;">Create Account →</button>
+  </form>
+  <div class="auth-footer">Already registered? <a href="{{ url_for('auth.login') }}">Sign in</a></div>
+</div>
+</div>
+<script>
+function setRole(r){document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));document.querySelector('[data-role="'+r+'"]').classList.add('active');document.getElementById('roleInput').value=r;}
+function previewImg(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{document.getElementById('placeholder').style.display='none';const p=document.getElementById('preview');p.src=ev.target.result;p.style.display='inline-block';};r.readAsDataURL(f);}
+</script>
+{% endblock %}

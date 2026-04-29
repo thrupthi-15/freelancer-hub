@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>{% block title %}Freelancing Hub{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% block extra_css %}{% endblock %}
+</head>
+<body>
+{% if session.get('user_id') or session.get('admin') %}
+<nav class="navbar">
+  <a class="brand" href="/">Freelancing<span>Hub</span></a>
+  <div class="nav-links">
+    {% if session.get('role') == 'employer' %}
+      <a href="{{ url_for('employer.profile') }}">👤 Profile</a>
+      <a href="{{ url_for('employer.post_project') }}">➕ Post Project</a>
+      <a href="{{ url_for('employer.view_posts') }}">📋 My Posts</a>
+      <a href="{{ url_for('employer.view_assigned') }}">📌 Assigned Tasks</a>
+    {% elif session.get('role') == 'employee' %}
+      <a href="{{ url_for('employee.profile') }}">👤 Profile</a>
+      <a href="{{ url_for('employee.view_posts') }}">🔍 View Posts</a>
+      <a href="{{ url_for('employee.my_tasks') }}">📌 My Tasks</a>
+      <a href="{{ url_for('employee.resources') }}">🎬 Resources</a>
+    {% elif session.get('admin') %}
+      <a href="{{ url_for('admin.dashboard') }}">📊 Dashboard</a>
+      <a href="{{ url_for('admin.add_resource') }}">➕ Add Resource</a>
+      <a href="{{ url_for('admin.view_resources') }}">🎬 View Resources</a>
+    {% endif %}
+    <a href="{{ url_for('auth.logout') }}" class="logout-btn">🚪 Logout</a>
+  </div>
+</nav>
+{% endif %}
+<div class="container" style="margin-top:1rem;margin-bottom:0;padding-bottom:0;">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}{% for cat, msg in messages %}
+      <div class="alert alert-{{ cat }}">{{ msg }}</div>
+    {% endfor %}{% endif %}
+  {% endwith %}
+</div>
+{% block content %}{% endblock %}
+{% block extra_js %}{% endblock %}
+</body>
+</html>

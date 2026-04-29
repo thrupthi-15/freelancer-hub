@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Task Status{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header"><h2>📊 Task Progress</h2><p>{{ task[2] if task else '' }} — Employee: {{ task[3] if task else '' }}</p></div>
+  <a href="{{ url_for('employer.view_assigned') }}" class="btn btn-outline btn-sm" style="margin-bottom:1.2rem;">← Back</a>
+  {% if task %}
+  <div class="card" style="max-width:600px;">
+    <div style="text-align:center;padding:1rem 0 2rem;">
+      <div style="font-size:4rem;font-weight:800;color:var(--primary);font-family:'Syne',sans-serif;">{{ task[0] }}%</div>
+      <p style="color:var(--muted);margin-bottom:1.2rem;">Completed</p>
+      <div class="progress-wrap" style="height:22px;">
+        <div class="progress-fill" style="width:{{ task[0] }}%;"></div>
+      </div>
+      {% if task[1] %}<p style="margin-top:1.2rem;color:var(--muted);font-size:.93rem;"><strong>Note:</strong> {{ task[1] }}</p>{% endif %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
