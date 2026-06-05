@@ -2,34 +2,43 @@
 {% block title %}My Posts{% endblock %}
 {% block content %}
 <div class="container">
-  <div class="page-header"><h2>📋 My Posted Projects</h2><p>Manage your project listings</p></div>
+  <div class="page-header">
+    <h2> My Posted Projects</h2>
+    <p>Manage your project listings</p>
+  </div>
   {% if projects %}
-    {% for p in projects %}
-    <div class="project-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;">
-        <h3>{{ p[2] }}</h3>
-        <span class="badge badge-{{ p[8] }}">{{ p[8]|capitalize }}</span>
-      </div>
-      <p style="color:var(--muted);font-size:.9rem;margin:.5rem 0;">{{ p[3][:150] }}{% if p[3]|length > 150 %}...{% endif %}</p>
-      <div class="skills-wrap">
-        {% for s in p[4].split(',') %}<span class="skill-tag">{{ s.strip() }}</span>{% endfor %}
-      </div>
-      <div class="project-meta">
-        <span>💰 Budget: ₹{{ "%.0f"|format(p[5]) }}</span>
-        <span>📅 Deadline: {{ p[6] }}</span>
-        <span>📆 Posted: {{ p[9].strftime('%d %b %Y') if p[9] else '' }}</span>
-      </div>
-      <div class="project-actions">
-        {% if p[7] %}<a href="{{ url_for('employer.serve_attachment', filename=p[7]) }}" target="_blank" class="btn btn-outline btn-sm">📎 View Attachment</a>{% endif %}
-        <a href="{{ url_for('employer.view_bids', pid=p[0]) }}" class="btn btn-primary btn-sm">👁 View Bids</a>
-        {% if p[8] == 'open' %}
-        <a href="{{ url_for('employer.delete_project', pid=p[0]) }}" class="btn btn-danger btn-sm" onclick="return confirm('Delete this project?')">🗑 Delete</a>
-        {% endif %}
-      </div>
+  {% for p in projects %}
+  <div class="project-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;">
+      <h3>{{ p[2] }}</h3>
+      <span class="badge badge-{{ p[8] }}">{{ p[8]|capitalize }}</span>
     </div>
-    {% endfor %}
+    <p style="color:var(--muted);font-size:.9rem;margin:.5rem 0;">{{ p[3][:150] }}{% if p[3]|length > 150 %}...{% endif
+      %}</p>
+    <div class="skills-wrap">
+      {% for s in p[4].split(',') %}<span class="skill-tag">{{ s.strip() }}</span>{% endfor %}
+    </div>
+    <div class="project-meta">
+      <span> Budget: ₹{{ "%.0f"|format(p[5]) }}</span>
+      <span> Deadline: {{ p[6] }}</span>
+      <span> Posted: {{ p[9].strftime('%d %b %Y') if p[9] else '' }}</span>
+    </div>
+    <div class="project-actions">
+      {% if p[7] %}<a href="{{ url_for('employer.serve_attachment', filename=p[7]) }}" target="_blank"
+        class="btn btn-outline btn-sm">📎 View Attachment</a>{% endif %}
+      <a href="{{ url_for('employer.view_bids', pid=p[0]) }}" class="btn btn-primary btn-sm">👁 View Bids</a>
+      {% if p[8] == 'open' %}
+      <a href="{{ url_for('employer.delete_project', pid=p[0]) }}" class="btn btn-danger btn-sm"
+        onclick="return confirm('Delete this project?')">🗑 Delete</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
   {% else %}
-    <div class="card empty-state"><div class="icon">📭</div><p>No projects posted yet. <a href="{{ url_for('employer.post_project') }}">Post your first project!</a></p></div>
+  <div class="card empty-state">
+    <div class="icon">📭</div>
+    <p>No projects posted yet. <a href="{{ url_for('employer.post_project') }}">Post your first project!</a></p>
+  </div>
   {% endif %}
 </div>
 {% endblock %}
