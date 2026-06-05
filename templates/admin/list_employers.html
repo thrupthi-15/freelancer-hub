@@ -3,10 +3,11 @@
 {% block content %}
 <div class="container">
   <div class="page-header">
-    <h2>👔 Employers</h2>
+    <h2> Employers</h2>
     <p>All registered employers on the platform</p>
   </div>
-  <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline" style="margin-bottom:1.5rem;display:inline-block;">← Back to Dashboard</a>
+  <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline"
+    style="margin-bottom:1.5rem;display:inline-block;">← Back to Dashboard</a>
 
   {% if employers %}
   <div class="detail-table-wrap">
@@ -32,7 +33,10 @@
     </table>
   </div>
   {% else %}
-  <div class="card empty-state"><div class="icon">👔</div><p>No employers registered yet.</p></div>
+  <div class="card empty-state">
+    <div class="icon"></div>
+    <p>No employers registered yet.</p>
+  </div>
   {% endif %}
 </div>
 {% endblock %}

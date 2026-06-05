@@ -3,10 +3,11 @@
 {% block content %}
 <div class="container">
   <div class="page-header">
-    <h2>🎬 Resources</h2>
+    <h2> Resources</h2>
     <p>All uploaded learning resources</p>
   </div>
-  <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline" style="margin-bottom:1.5rem;display:inline-block;">← Back to Dashboard</a>
+  <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline"
+    style="margin-bottom:1.5rem;display:inline-block;">← Back to Dashboard</a>
 
   {% if resources %}
   <div class="detail-table-wrap">
@@ -32,9 +33,8 @@
           </td>
           <td>{{ r[4].strftime('%d %b %Y') if r[4] else '—' }}</td>
           <td>
-            <a href="{{ url_for('admin.delete_resource', rid=r[0]) }}"
-               class="btn btn-danger btn-sm"
-               onclick="return confirm('Delete this resource?')">🗑 Delete</a>
+            <a href="{{ url_for('admin.delete_resource', rid=r[0]) }}" class="btn btn-danger btn-sm"
+              onclick="return confirm('Delete this resource?')">🗑 Delete</a>
           </td>
         </tr>
         {% endfor %}
@@ -42,7 +42,10 @@
     </table>
   </div>
   {% else %}
-  <div class="card empty-state"><div class="icon">🎬</div><p>No resources uploaded yet.</p></div>
+  <div class="card empty-state">
+    <div class="icon"></div>
+    <p>No resources uploaded yet.</p>
+  </div>
   {% endif %}
 </div>
 {% endblock %}

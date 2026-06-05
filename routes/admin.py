@@ -51,7 +51,8 @@ def list_employees():
     cur.close()
     return render_template('admin/list_employees.html', employees=employees)
 
-# ── NEW: Projects detail list ──────────────────────────────────────────────────
+# ── REPLACE the list_projects function in routes/admin.py ─────────────────────
+
 @admin_bp.route('/projects')
 @admin_required
 def list_projects():
@@ -62,15 +63,16 @@ def list_projects():
             p.title,
             p.budget,
             p.status,
-            p.created_at,
+            p.posted_at,
             poster.name   AS poster_name,
             poster.email  AS poster_email,
             worker.name   AS worker_name,
             worker.email  AS worker_email
         FROM projects p
         JOIN users poster ON poster.id = p.employer_id
-        LEFT JOIN users worker ON worker.id = p.assigned_to
-        ORDER BY p.created_at DESC
+        LEFT JOIN assigned_tasks at2 ON at2.project_id = p.id
+        LEFT JOIN users worker ON worker.id = at2.employee_id
+        ORDER BY p.posted_at DESC
     """)
     projects = cur.fetchall()
     cur.close()
