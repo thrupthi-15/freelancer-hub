@@ -7,22 +7,26 @@
     <p>Welcome, {{ session.admin_email }}</p>
   </div>
   <div class="stats-grid">
-    <div class="stat-card">
+    <a href="{{ url_for('admin.list_employers') }}" class="stat-card stat-card-link">
       <div class="num">{{ employers }}</div>
-      <div class="label">👔 Employers</div>
-    </div>
-    <div class="stat-card">
+      <div class="label"> Employers</div>
+      <div class="stat-hint">Click to view details</div>
+    </a>
+    <a href="{{ url_for('admin.list_employees') }}" class="stat-card stat-card-link">
       <div class="num">{{ employees }}</div>
-      <div class="label">💼 Employees</div>
-    </div>
-    <div class="stat-card">
+      <div class="label"> Employees</div>
+      <div class="stat-hint">Click to view details</div>
+    </a>
+    <a href="{{ url_for('admin.list_projects') }}" class="stat-card stat-card-link">
       <div class="num">{{ projects }}</div>
-      <div class="label">📋 Projects</div>
-    </div>
-    <div class="stat-card">
+      <div class="label"> Projects</div>
+      <div class="stat-hint">Click to view details</div>
+    </a>
+    <a href="{{ url_for('admin.list_resources') }}" class="stat-card stat-card-link">
       <div class="num">{{ res_count }}</div>
-      <div class="label">🎬 Resources</div>
-    </div>
+      <div class="label"> Resources</div>
+      <div class="stat-hint">Click to view details</div>
+    </a>
   </div>
   <div class="grid-2">
     <div class="card" style="text-align:center;padding:2.5rem;">
@@ -32,10 +36,10 @@
       <a href="{{ url_for('admin.add_resource') }}" class="btn btn-accent"> Add Resource</a>
     </div>
     <div class="card" style="text-align:center;padding:2.5rem;">
-      <div style="font-size:2.5rem;margin-bottom:.8rem;">🎬</div>
+      <div style="font-size:2.5rem;margin-bottom:.8rem;"></div>
       <h3 style="color:var(--primary);margin-bottom:.5rem;">Manage Resources</h3>
       <p style="color:var(--muted);font-size:.9rem;margin-bottom:1.2rem;">View, search and delete posted resources</p>
-      <a href="{{ url_for('admin.view_resources') }}" class="btn btn-primary">📋 View Resources</a>
+      <a href="{{ url_for('admin.view_resources') }}" class="btn btn-primary"> View Resources</a>
     </div>
   </div>
 </div>

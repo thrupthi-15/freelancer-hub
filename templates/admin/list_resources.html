@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Resources List{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h2>🎬 Resources</h2>
+    <p>All uploaded learning resources</p>
+  </div>
+  <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline" style="margin-bottom:1.5rem;display:inline-block;">← Back to Dashboard</a>
+
+  {% if resources %}
+  <div class="detail-table-wrap">
+    <table class="detail-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Skills</th>
+          <th>Uploaded</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in resources %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ r[1] }}</td>
+          <td>
+            <div class="skills-wrap">
+              {% for s in r[2].split(',') %}<span class="skill-tag">{{ s.strip() }}</span>{% endfor %}
+            </div>
+          </td>
+          <td>{{ r[4].strftime('%d %b %Y') if r[4] else '—' }}</td>
+          <td>
+            <a href="{{ url_for('admin.delete_resource', rid=r[0]) }}"
+               class="btn btn-danger btn-sm"
+               onclick="return confirm('Delete this resource?')">🗑 Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="card empty-state"><div class="icon">🎬</div><p>No resources uploaded yet.</p></div>
+  {% endif %}
+</div>
+{% endblock %}
